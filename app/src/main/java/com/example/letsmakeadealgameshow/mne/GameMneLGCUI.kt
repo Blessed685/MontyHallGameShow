@@ -36,6 +36,8 @@ fun MontyHallGameShow(){
     var revealedGoat by remember { mutableStateOf<Int?>(null) }
     var carDoor by remember { mutableStateOf((1..3).random()) }
     var goatDoors by remember { mutableStateOf((1..3).filter { it != carDoor }.shuffled()) }
+    var finalPick by remember { mutableStateOf<Int?>(null) }
+
 
     Column(
         modifier = Modifier
@@ -89,7 +91,6 @@ fun MontyHallGameShow(){
                 Button(onClick = {
                     playerPick = 1
                     revealedGoat = goatDoors.first { it != playerPick }
-                    message = "Door $revealedGoat has a goat!\nDo you want to stick with Door $playerPick or switch?"
                     stage = 2
                 }) {
                     Text("Door 1")
@@ -97,7 +98,6 @@ fun MontyHallGameShow(){
                 Button(onClick = {
                     playerPick = 2
                     revealedGoat = goatDoors.first { it != playerPick }
-                    message = "Door $revealedGoat has a goat!\nDo you want to stick with Door $playerPick or switch?"
                     stage = 2
                 }) {
                     Text("Door 2")
@@ -105,19 +105,59 @@ fun MontyHallGameShow(){
                 Button(onClick = {
                     playerPick = 3
                     revealedGoat = goatDoors.first { it != playerPick }
-                    message = "Door $revealedGoat has a goat!\nDo you want to stick with Door $playerPick or switch?"
                     stage = 2
                 }) {
                     Text("Door 3")
                 }
             }
             Spacer(modifier = Modifier.height(75.dp))
-            Text(text = "BACK",
+            Text(text = "Back",
                 color = Color.Blue,
                 fontSize = 20.sp,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.clickable{
                     stage = 0
+                }
+            )
+        }
+
+        if (stage == 2) {
+            message = "Door $revealedGoat has a goat!\nDo you want to stay with Door $playerPick or swap?"
+            Spacer(modifier = Modifier.height(30.dp))
+            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                Button(onClick = {
+                    finalPick = playerPick
+                    stage = 3
+                    message = if (finalPick == carDoor) "You won the car! 🚗" else "Sorry, it's a goat 🐐"
+                }) {
+                    Text("Stay")
+                }
+                Button(onClick = {
+                    finalPick = (1..3).first { it != playerPick && it != revealedGoat }
+                    stage = 3
+                    message = if (finalPick == carDoor) "You won the car! 🚗" else "Sorry, it's a goat 🐐"
+                }) {
+                    Text("Swap")
+                }
+            }
+            Spacer(modifier = Modifier.height(30.dp))
+            Text(text = "Back",
+                color = Color.Blue,
+                fontSize = 20.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.clickable{
+                    stage = 1
+                }
+            )
+        }
+
+        if (stage == 3) {
+            Text(text = "Back",
+                color = Color.Blue,
+                fontSize = 20.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.clickable{
+                    stage = 2
                 }
             )
         }
