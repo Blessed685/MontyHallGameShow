@@ -2,6 +2,7 @@ package com.example.letsmakeadealgameshow.mne
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -23,12 +24,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlin.collections.first
 
 @Composable
 fun MontyHallGameShow(){
     var nickname by remember { mutableStateOf("") }
     var message by remember { mutableStateOf("") }
-    var stage by remember { mutableStateOf(0) } // 0=enter nickname,1=pick door,2=stick/switch,3=game over
+    var stage by remember { mutableStateOf(0) }
+    var playerPick by remember { mutableStateOf<Int?>(null) }
+    var revealedGoat by remember { mutableStateOf<Int?>(null) }
+    var carDoor by remember { mutableStateOf((1..3).random()) }
+    var goatDoors by remember { mutableStateOf((1..3).filter { it != carDoor }.shuffled()) }
 
     Column(
         modifier = Modifier
@@ -75,7 +81,38 @@ fun MontyHallGameShow(){
             fontSize = 20.sp,
             textAlign = TextAlign.Center)
 
-        Spacer(modifier = Modifier.height(16.dp))
+        if (stage == 1) {
+            Text(text = "Hello, $nickname! Pick a door.",
+                fontSize = 16.sp,
+                textAlign = TextAlign.Center)
+            Spacer(modifier = Modifier.height(10.dp))
+            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                Button(onClick = {
+                    playerPick = 1
+                    revealedGoat = goatDoors.first { it != playerPick }
+                    message = "Door $revealedGoat has a goat!\nDo you want to stick with Door $playerPick or switch?"
+                    stage = 2
+                }) {
+                    Text("Door 1")
+                }
+                Button(onClick = {
+                    playerPick = 2
+                    revealedGoat = goatDoors.first { it != playerPick }
+                    message = "Door $revealedGoat has a goat!\nDo you want to stick with Door $playerPick or switch?"
+                    stage = 2
+                }) {
+                    Text("Door 2")
+                }
+                Button(onClick = {
+                    playerPick = 3
+                    revealedGoat = goatDoors.first { it != playerPick }
+                    message = "Door $revealedGoat has a goat!\nDo you want to stick with Door $playerPick or switch?"
+                    stage = 2
+                }) {
+                    Text("Door 3")
+                }
+            }
+        }
     }
 }
 
