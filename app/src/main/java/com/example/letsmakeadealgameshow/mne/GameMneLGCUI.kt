@@ -148,6 +148,7 @@ fun MontyHallGameShow(){
                 fontSize = 20.sp,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.clickable{
+                    message = ""
                     stage = 1
                 }
             )
@@ -159,6 +160,7 @@ fun MontyHallGameShow(){
                 fontSize = 20.sp,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.clickable{
+                    message = ""
                     stage = 2
                 }
             )
