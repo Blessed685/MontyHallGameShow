@@ -1,5 +1,6 @@
 package com.example.letsmakeadealgameshow.mne
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -53,7 +54,6 @@ fun MontyHallGameShow(){
         Spacer(modifier = Modifier.height(75.dp))
 
         if (stage == 0) {
-//            message = "Welcome to Monty Hall Game!"
             OutlinedTextField(
                 value = nickname,
                 onValueChange = { nickname = it },
@@ -70,7 +70,6 @@ fun MontyHallGameShow(){
                 } else {
                     stage = 1
                     message = ""
-//                    message = "Hello, $nickname! Pick a door."
                 }
             }) {
                 Text("Start Game")
@@ -112,6 +111,15 @@ fun MontyHallGameShow(){
                     Text("Door 3")
                 }
             }
+            Spacer(modifier = Modifier.height(75.dp))
+            Text(text = "BACK",
+                color = Color.Blue,
+                fontSize = 20.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.clickable{
+                    stage = 0
+                }
+            )
         }
     }
 }
