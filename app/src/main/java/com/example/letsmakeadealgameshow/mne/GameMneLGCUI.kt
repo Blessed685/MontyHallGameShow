@@ -122,7 +122,9 @@ fun MontyHallGameShow(){
         }
 
         if (stage == 2) {
-            message = "Door $revealedGoat has a goat!\nDo you want to stay with Door $playerPick or swap?"
+            Text(text = "Door $revealedGoat has a goat!\nDo you want to stay with Door $playerPick or swap?",
+                fontSize = 16.sp,
+                textAlign = TextAlign.Center)
             Spacer(modifier = Modifier.height(30.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                 Button(onClick = {
