@@ -38,6 +38,15 @@ fun MontyHallGameShow(){
     var goatDoors by remember { mutableStateOf((1..3).filter { it != carDoor }.shuffled()) }
     var finalPick by remember { mutableStateOf<Int?>(null) }
 
+    fun resetGame() {
+        playerPick = null
+        finalPick = null
+        revealedGoat = null
+        carDoor = (1..3).random()
+        goatDoors = (1..3).filter { it != carDoor }.shuffled()
+        message = ""
+        stage = 0
+    }
 
     Column(
         modifier = Modifier
@@ -155,6 +164,12 @@ fun MontyHallGameShow(){
         }
 
         if (stage == 3) {
+            Button(onClick = {
+                resetGame()
+            }) {
+                Text("Play Again")
+            }
+            Spacer(modifier = Modifier.height(30.dp))
             Text(text = "Back",
                 color = Color.Blue,
                 fontSize = 20.sp,
